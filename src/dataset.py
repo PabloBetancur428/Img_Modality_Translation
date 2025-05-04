@@ -5,7 +5,8 @@ import numpy as np
 from torch.utils.data import Dataset, DataLoader
 from monai.transforms import (
     Lambdad, ScaleIntensityRanged,
-    ResizeWithPadOrCropd, ToTensord, Compose
+    ResizeWithPadOrCropd, ToTensord, Compose,
+    RandFlipd, RandRotate90d, RandGaussianNoised
 )
 from config import settings
 
@@ -46,6 +47,9 @@ class Slice2DDataset(Dataset):
                 keys=["image", "label"],
                 spatial_size=settings.img_size
             ),
+            RandFlipd(keys=["image","label"], prob=0.5, spatial_axis=0),
+            RandRotate90d(keys=["image","label"], prob=0.5, max_k=3),
+            RandGaussianNoised(keys=["image"], prob=0.3, mean=0.0, std=0.1),
             ToTensord(keys=["image", "label"]),
         ])
 

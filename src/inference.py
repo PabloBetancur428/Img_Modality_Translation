@@ -4,7 +4,7 @@ import torch
 import numpy as np
 import nibabel as nib
 from config import settings
-from model import Generator
+from generator import Generator
 
 def infer(input_path: str, output_path: str, ckpt_path: str):
     """
